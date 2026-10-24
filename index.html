@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F4FD8">
+<title>Секретарь Бо</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{--ac:#1F4FD8;--ac2:color-mix(in srgb,var(--ac),#fff 45%);--bg:#F5F6FF;--sf:#fff;--tx:#14182B;--t2:#5E6480;--bd:#E0E3F2;--as:color-mix(in srgb,var(--ac),#fff 88%);--wr:#B54708;--ok:#12A150}
+@media(prefers-color-scheme:dark){:root{--bg:#0F1220;--sf:#1A1E33;--tx:#EEF0FA;--t2:#A3A9C4;--bd:#2B3050;--as:color-mix(in srgb,var(--ac),#1A1E33 80%);--wr:#F0A35E}}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.4 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;padding-top:env(safe-area-inset-top,0)}
+.app{position:relative;max-width:430px;height:100%;margin:0 auto;display:flex;flex-direction:column;overflow:hidden}
+.hero{display:flex;gap:10px;align-items:center;padding:10px 16px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff}
+.hero svg{width:78px;height:78px;flex:none;filter:drop-shadow(0 4px 6px #0003)}
+.bub{position:relative;background:#fff;color:#14182B;border-radius:14px;padding:10px 12px;font-size:14px;min-height:42px;flex:1}
+.bub:before{content:"";position:absolute;left:-6px;top:22px;border:6px solid transparent;border-right-color:#fff;border-left:0}
+.nm{font-size:12px;opacity:.9;margin-bottom:2px}
+main{flex:1;overflow:auto;padding:14px 16px}
+.pg{display:flex;flex-direction:column;gap:10px}.pg[hidden]{display:none}
+.k{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;animation:up .35s both;box-shadow:0 2px 8px #1f4fd80d}
+.k b{display:block}.k p{margin:3px 0 0;color:var(--t2);font-size:13px}
+.l{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ac);font-weight:600;margin-top:6px}
+.r{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+button{font:600 14px inherit;font-family:inherit;cursor:pointer;transition:transform .12s}
+button:active{transform:scale(.95)}
+.b{min-height:44px;padding:0 18px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff}
+.g{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+.q{border:1px solid var(--bd);border-radius:20px;padding:9px 14px;font-size:13px;background:var(--sf);color:var(--tx);font-weight:500}
+.q.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.it{display:flex;gap:6px;align-items:center;min-height:44px}
+.it .c{flex:1;text-align:left;background:none;border:0;color:var(--tx);font-weight:400;font-size:15px;display:flex;gap:10px;align-items:center;min-height:44px;padding:0}
+.ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--ac);flex:none;display:grid;place-items:center;color:#fff;font-size:13px;transition:.2s}
+.it.d .ck{background:var(--ok);border-color:var(--ok)}
+.it i{font-style:normal;width:44px;color:var(--t2);font-variant-numeric:tabular-nums;font-size:13px}
+.it.d span{text-decoration:line-through;color:var(--t2)}
+.x{background:none;border:0;color:var(--t2);min-width:44px;min-height:44px;font-size:18px}
+.m{max-width:85%;padding:10px 12px;border-radius:14px;font-size:14px;animation:up .3s both;white-space:pre-wrap}
+.u{align-self:flex-end;background:var(--ac);color:#fff}.a{align-self:flex-start;background:var(--sf);border:1px solid var(--bd)}
+.row{display:flex;gap:8px;position:sticky;bottom:0;background:var(--bg);padding-top:8px}
+input,select{font:inherit;color:var(--tx);background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:11px 12px;min-height:44px;box-sizing:border-box;flex:1;min-width:0}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:1px}
+nav{position:relative;display:grid;grid-template-columns:repeat(4,1fr);background:var(--sf);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0)}
+nav button{background:none;border:0;padding:14px 0;color:var(--t2);min-height:48px}
+nav button[aria-current="true"]{color:var(--ac)}
+.ind{position:absolute;top:-1px;left:0;width:25%;height:3px;background:var(--ac);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.ov{position:absolute;inset:0;background:var(--bg);z-index:5;padding:28px 18px;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.ov[hidden]{display:none}
+.ov h1{margin:0;font-size:24px}
+.pc{text-align:left;width:100%;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:14px;color:var(--tx);font-weight:400;min-height:64px}
+.pc b{display:block;font-size:16px}.pc span{color:var(--t2);font-size:13px}
+.sw{width:44px;height:44px;border-radius:50%;border:3px solid transparent}.sw.on{border-color:var(--tx)}
+.ring{width:64px;height:64px;flex:none}
+.er{color:var(--wr);font-size:13px;min-height:18px}
+.code{font:700 28px ui-monospace,monospace;letter-spacing:.15em;text-align:center;background:var(--as);border-radius:12px;padding:14px}
+#toast{position:absolute;left:50%;bottom:72px;transform:translate(-50%,20px);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:20px;opacity:0;transition:.3s;font-size:14px;pointer-events:none;white-space:nowrap;z-index:9}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.cf{position:absolute;width:8px;height:12px;border-radius:2px;pointer-events:none;z-index:9;animation:cf 1s ease-out forwards}
+@keyframes cf{to{transform:translate(var(--dx),var(--dy)) rotate(540deg);opacity:0}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}}
+@keyframes fl{50%{transform:translateY(-4px)}}
+@keyframes bl{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes pu{50%{opacity:.35;transform:scale(1.3)}}
+@keyframes hop{40%{transform:translateY(-14px)}}
+.bot .bd{animation:fl 3s ease-in-out infinite}
+.bot .eye{transform-box:fill-box;transform-origin:center;animation:bl 4s infinite;transition:transform .3s}
+.bot .ant{transform-box:fill-box;transform-origin:center;animation:pu 1.8s infinite}
+.bot[data-s="think"] .ant{animation-duration:.5s}.bot[data-s="think"] .eye{translate:3px 0}
+.bot[data-s="happy"] .bd{animation:hop .5s 2}
+.ch{opacity:.35;transition:opacity .3s}.bot[data-s="happy"] .ch{opacity:.95}
+.rb{fill:var(--ac)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<header class="hero">
+<svg class="bot" id="bot" data-s="idle" viewBox="0 0 120 120" role="img" aria-label="Робот-помощник">
+<g class="bd"><line x1="60" y1="14" x2="60" y2="27" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle class="ant" cx="60" cy="11" r="5" fill="#FFC53D"/>
+<rect class="rb" x="26" y="88" width="8" height="16" rx="4"/><rect class="rb" x="86" y="88" width="8" height="16" rx="4"/><rect class="rb" x="36" y="84" width="48" height="28" rx="12"/><circle cx="60" cy="98" r="5" fill="#fff" opacity=".9"/>
+<rect class="rb" x="22" y="27" width="76" height="58" rx="22" stroke="#fff" stroke-width="2.5"/><rect x="30" y="35" width="60" height="40" rx="15" fill="#F4F8FF"/>
+<ellipse class="eye" cx="47" cy="53" rx="5" ry="7" fill="#14182B"/><ellipse class="eye" cx="73" cy="53" rx="5" ry="7" fill="#14182B"/>
+<path d="M52 64Q60 71 68 64" fill="none" stroke="#14182B" stroke-width="2.5" stroke-linecap="round"/><circle class="ch" cx="40" cy="64" r="4" fill="#FF8FA3"/><circle class="ch" cx="80" cy="64" r="4" fill="#FF8FA3"/></g>
+</svg>
+<div class="bub"><div class="nm" id="nm"></div><div id="bub" aria-live="polite"></div></div>
+</header>
+<main>
+<section class="pg" id="p0"></section>
+<section class="pg" id="p1" hidden><div id="msgs" style="display:flex;flex-direction:column;gap:8px"></div><div class="row"><input id="in" placeholder="Напишите поручение" aria-label="Поручение"><button class="b" data-a="send">Отправить</button></div></section>
+<section class="pg" id="p2" hidden><div class="row" style="position:static"><input id="ni" placeholder="Новая заметка" aria-label="Новая заметка"><button class="b" data-a="addn">Добавить</button></div><div id="notes" style="display:flex;flex-direction:column;gap:8px"></div></section>
+<section class="pg" id="p3" hidden></section>
+</main>
+<nav aria-label="Разделы"><div class="ind" id="ind"></div><button data-t="0" aria-current="true">Сегодня</button><button data-t="1">Чат</button><button data-t="2">Память</button><button data-t="3">Профиль</button></nav>
+<div id="toast" role="status"></div>
+
+<div class="ov" id="auth" hidden>
+<h1>Здравствуйте!</h1><p style="margin:0;color:var(--t2)">Войдите или создайте аккаунт, чтобы ваши данные были на всех устройствах.</p>
+<div class="r" style="margin:0"><button class="q on" data-a="mode" data-i="in">Вход</button><button class="q" data-a="mode" data-i="up">Регистрация</button></div>
+<input id="em" type="email" placeholder="Почта" autocomplete="email" aria-label="Почта">
+<input id="pw" type="password" placeholder="Пароль, не короче 8 знаков" autocomplete="current-password" aria-label="Пароль">
+<div id="su" hidden style="display:none;flex-direction:column;gap:12px"><input id="un" placeholder="Ваше имя" aria-label="Имя"><input id="by" type="number" inputmode="numeric" placeholder="Год рождения, например 2010" aria-label="Год рождения"></div>
+<div class="er" id="er" role="alert"></div>
+<button class="b" id="go" data-a="auth">Войти</button>
+<button class="g b" data-a="reset">Забыли пароль?</button>
+</div>
+
+<div class="ov" id="gate" hidden>
+<h1>Нужно разрешение родителя</h1><p style="margin:0;color:var(--t2)">Вам меньше 16 лет, поэтому аккаунт включит родитель. Передайте ему этот код: он войдёт в своё приложение, откроет «Профиль» и введёт код в разделе «Родительский контроль».</p>
+<div class="code" id="gc"></div><button class="b" data-a="chk">Проверить подтверждение</button><button class="g b" data-a="out">Выйти</button><div class="er" id="ge"></div>
+</div>
+
+<div class="ov" id="ob" hidden>
+<h1>Давайте знакомиться</h1>
+<div class="l">Как назовёте помощника?</div><input id="rn" placeholder="Например, Бо" maxlength="16" aria-label="Имя помощника" value="Бо">
+<div class="l">Цвет</div><div class="r" style="margin:0" id="sws"></div>
+<div class="l">Кто вы?</div><div id="pl" style="display:flex;flex-direction:column;gap:10px"></div>
+</div>
+</div>
+<script>
+const SB_URL='ВСТАВЬТЕ_URL_ПРОЕКТА',SB_KEY='ВСТАВЬТЕ_ANON_КЛЮЧ';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const HUES=['#1F4FD8','#0E9F8E','#F26B21','#7C3AED','#E11D74'];
+const PR={biz:{n:'Бизнес',d:'Встречи, планы, письма',L:{event:'Встреча',task:'План',rem:'Напоминание'},S:[['event','Встречи'],['task','Планы'],['rem','Напоминания']],h:'Начнём со встреч?'},
+teach:{n:'Учитель',d:'Уроки, расписание, проверка работ',L:{event:'Урок',task:'Проверить',rem:'Напоминание'},S:[['event','Расписание уроков'],['task','Проверка работ'],['rem','Напоминания']],h:'Добавьте уроки недели.'},
+stud:{n:'Ученик',d:'Домашние задания и напоминания',L:{task:'Домашнее задание',rem:'Напоминание',event:'Урок'},S:[['task','Домашние задания'],['rem','Напоминания'],['event','Уроки']],h:'Запишите домашние задания, а я напомню.'}};
+const EMPTY={event:'Пока ничего. Добавьте выше.',task:'Список пуст.',rem:'Напоминаний нет.'};
+let sb,U=null,PF=null,GD=null,items=[],notes=[],kids=[],props=[],tabN=0,authMode='in',tm,st;
+const P=()=>PR[PF&&PF.mode]||PR.biz;
+const bn=()=>(PF&&PF.robot_name)||'Бо';
+function paint(h){document.documentElement.style.setProperty('--ac',h||'#1F4FD8');const m=document.querySelector('meta[name=theme-color]');if(m)m.content=h||'#1F4FD8'}
+function say(t){clearInterval(tm);let i=0;$('#nm').textContent=bn();tm=setInterval(()=>{$('#bub').textContent=t.slice(0,++i);if(i>=t.length)clearInterval(tm)},16)}
+function mood(s,ms){const b=$('#bot');b.dataset.s=s;clearTimeout(st);if(s!=='idle')st=setTimeout(()=>b.dataset.s='idle',ms||1200)}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)}
+function confetti(){const a=$('#app');for(let i=0;i<22;i++){const c=document.createElement('i');c.className='cf';c.style.cssText='left:50%;top:30%;background:'+HUES[i%5]+';--dx:'+(Math.random()*300-150)+'px;--dy:'+(Math.random()*260+40)+'px';a.appendChild(c);setTimeout(()=>c.remove(),1000)}}
+function hint(){const o=items.filter(i=>!i.d).length,t=items.length;return [t?(o?'Осталось дел: '+o+'. Отмечайте выполненное!':'Всё сделано! Отличная работа.'):P().h,'Напишите поручение, а я предложу действие. Решаете вы.','Здесь ваши заметки.','Настройки, аккаунт и родительский контроль.'][tabN]}
+function tab(n){tabN=n;document.querySelectorAll('.pg').forEach((p,i)=>p.hidden=i!==n);document.querySelectorAll('nav button').forEach((b,i)=>b.setAttribute('aria-current',i===n));$('#ind').style.transform='translateX('+n*100+'%)';say(hint());mood('happy',700)}
+function ring(){const t=items.length,d=items.filter(i=>i.d).length,p=t?d/t:0,c=2*Math.PI*26;return '<svg class="ring" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--bd)" stroke-width="7"/><circle cx="32" cy="32" r="26" fill="none" stroke="var(--ok)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+(c*(1-p))+'" transform="rotate(-90 32 32)" style="transition:stroke-dashoffset .6s"/><text x="32" y="37" text-anchor="middle" font-size="14" font-weight="600" fill="var(--tx)">'+d+'/'+t+'</text></svg>'}
+function rToday(){
+  const p=P();
+  let h='<div class="k"><div class="r" style="margin:0;gap:14px">'+ring()+'<div><b>'+p.n+'</b><p>'+p.d+'</p></div></div></div><div class="k"><div class="r" style="margin:0"><select id="ak" aria-label="Тип записи">'+p.S.map(s=>'<option value="'+s[0]+'">'+p.L[s[0]]+'</option>').join('')+'</select><input id="at" placeholder="Название" aria-label="Название"><input id="ah" type="time" aria-label="Время" style="max-width:110px;flex:none"><button class="b" data-a="addi">Добавить</button></div></div>';
+  p.S.forEach(s=>{const L=items.filter(i=>i.k===s[0]).sort((a,b)=>(a.d-b.d)||(a.h||'99').localeCompare(b.h||'99'));
+    h+='<div class="l">'+s[1]+'</div><div class="k">'+(L.length?L.map(i=>'<div class="it'+(i.d?' d':'')+'"><button class="c" data-a="done" data-i="'+i.id+'"><span class="ck">'+(i.d?'✓':'')+'</span><i>'+esc(i.h||'')+'</i><span>'+esc(i.t)+(i.w?' · '+esc(i.w):'')+'</span></button><button class="x" data-a="deli" data-i="'+i.id+'" aria-label="Удалить">×</button></div>').join(''):'<p style="margin:0">'+EMPTY[s[0]]+'</p>')+'</div>'});
+  $('#p0').innerHTML=h;
+}
+function rNote(){$('#notes').innerHTML=notes.map(n=>'<div class="k"><div class="r" style="margin:0"><span style="flex:1">'+esc(n.t)+'</span><button class="b g" data-a="deln" data-i="'+n.id+'" aria-label="Удалить заметку">Удалить</button></div></div>').join('')||'<div class="k"><b>Пока пусто</b><p>Добавьте заметку или попросите меня в чате.</p></div>'}
+function rProf(){
+  let h='<div class="k"><b>'+esc(U?U.user_metadata.name||U.email:'')+'</b><p>'+esc(U?U.email:'')+'. Данные синхронизируются между вашими устройствами.</p></div><div class="l">Помощник</div><div class="k"><input id="rn2" value="'+esc(bn())+'" maxlength="16" aria-label="Имя помощника"><div class="r">'+HUES.map(c=>'<button class="sw'+(PF.robot_hue===c?' on':'')+'" style="background:'+c+'" data-a="hue" data-i="'+c+'" aria-label="Цвет '+c+'"></button>').join('')+'<button class="b g" data-a="rname">Сохранить имя</button></div></div><div class="l">Профиль</div><div class="k"><div class="r" style="margin:0">'+Object.keys(PR).map(k=>'<button class="q'+(PF.mode===k?' on':'')+'" data-a="prof" data-i="'+k+'">'+PR[k].n+'</button>').join('')+'</div></div>';
+  h+='<div class="l">Родительский контроль</div><div class="k"><p style="margin:0 0 8px">Вы родитель? Введите код, который показал ребёнок при регистрации.</p><div class="r" style="margin:0"><input id="kc" placeholder="Код, 8 знаков" maxlength="8" aria-label="Код ребёнка"><button class="b" data-a="claim">Подтвердить</button></div></div>';
+  kids.forEach(k=>{h+='<div class="k"><b>'+esc(k.child_name||'Ребёнок')+'</b><p>Открытых дел: '+k.open+', выполнено: '+k.done+'.</p><div class="r"><button class="q'+(k.ai_enabled?' on':'')+'" data-a="kai" data-i="'+k.child_id+'">Чат с помощником: '+(k.ai_enabled?'включён':'выключен')+'</button></div><div>'+k.list.map(i=>'<div class="it'+(i.d?' d':'')+'"><span class="ck">'+(i.d?'✓':'')+'</span><span>'+esc(i.t)+'</span></div>').join('')+'</div></div>'});
+  h+='<button class="b g" data-a="out">Выйти</button>';
+  $('#p3').innerHTML=h;
+}
+function render(){paint(PF&&PF.robot_hue);rToday();rNote();rProf();$('#nm').textContent=bn()}
+function chatOn(){return !GD||GD.ai_enabled}
+function msg(w,t){const m=document.createElement('div');m.className='m '+w;m.textContent=t;$('#msgs').appendChild(m);m.scrollIntoView({block:'end'});return m}
+function card(pr,i){const m=document.createElement('div');m.className='m a';m.innerHTML='<b>'+(pr.n?'Заметка':P().L[pr.k])+'</b>: '+esc(pr.t)+(pr.h?' в '+esc(pr.h):'')+(pr.w?', '+esc(pr.w):'')+'<div class="r"><button class="b" data-a="ok" data-i="'+i+'">Подтвердить</button><button class="b g" data-a="no" data-i="'+i+'">Отмена</button></div>';$('#msgs').appendChild(m);m.scrollIntoView({block:'end'})}
+function ask(text){
+  msg('u',text);
+  if(!chatOn()){msg('a','Чат отключён родителем.');return}
+  mood('think',900);
+  setTimeout(()=>{
+    const t=text.toLowerCase(),tmx=text.match(/(\d{1,2})[:.](\d{2})/),day=/завтра/.test(t)?'завтра':/сегодня/.test(t)?'сегодня':'';
+    if(/заметк/.test(t)){const n=text.replace(/^.*?заметк[аиу]?:?\s*/i,'').trim();if(n){props.push({n:1,t:n});card(props[props.length-1],props.length-1)}else msg('a','Что записать?')}
+    else if(/напомн|урок|встреч|задан|домашн|провер/.test(t)){
+      const k=/урок|встреч/.test(t)?'event':/задан|домашн|провер/.test(t)?'task':'rem',m=text.match(/про\s+(.+?)(?:\s+(?:в|на)\s+\d|$)/i);
+      props.push({k:k,t:m?m[1]:text.replace(/напомни|добавь|поставь/gi,'').trim(),h:tmx?tmx[1].padStart(2,'0')+':'+tmx[2]:'',w:day});card(props[props.length-1],props.length-1)}
+    else msg('a','Пока понимаю напоминания, уроки, встречи, задания и заметки. Умный ИИ на телефоне подключим в мобильной версии.');
+  },600)
+}
+async function loadAll(){
+  const a=await sb.from('items').select('*').eq('user_id',U.id).order('created_at'),b=await sb.from('notes').select('*').eq('user_id',U.id).order('created_at',{ascending:false});
+  items=a.data||[];notes=b.data||[];
+  const g=await sb.from('guardianship').select('*').eq('parent_id',U.id);kids=[];
+  for(const k of g.data||[]){const r=await sb.from('items').select('t,d').eq('user_id',k.child_id);const l=r.data||[];kids.push({...k,list:l,open:l.filter(x=>!x.d).length,done:l.filter(x=>x.d).length})}
+}
+async function boot(session){
+  U=session.user;
+  const p=await sb.from('prefs').select('*').eq('user_id',U.id).maybeSingle();PF=p.data;
+  const g=await sb.from('guardianship').select('*').eq('child_id',U.id).maybeSingle();GD=g.data;
+  $('#auth').hidden=true;
+  if(GD&&!GD.approved){$('#gc').textContent=GD.code;$('#gate').hidden=false;return}
+  $('#gate').hidden=true;
+  if(!PF){$('#ob').hidden=false;return}
+  $('#ob').hidden=true;await loadAll();render();tab(0);
+}
+async function savePrefs(){const r=await sb.from('prefs').upsert({user_id:U.id,mode:PF.mode,robot_name:PF.robot_name,robot_hue:PF.robot_hue});if(r.error)toast('Не удалось сохранить')}
+async function onClick(e){
+  const t=e.target.closest('[data-t],[data-a]');if(!t)return;
+  if(t.dataset.t!==undefined&&!t.dataset.a){tab(+t.dataset.t);return}
+  const a=t.dataset.a,i=t.dataset.i;
+  if(a==='mode'){authMode=i;document.querySelectorAll('[data-a=mode]').forEach(b=>b.classList.toggle('on',b.dataset.i===i));$('#su').style.display=i==='up'?'flex':'none';$('#go').textContent=i==='up'?'Создать аккаунт':'Войти';$('#er').textContent=''}
+  else if(a==='auth'){
+    const em=$('#em').value.trim(),pw=$('#pw').value;$('#er').textContent='';
+    if(!em||pw.length<8){$('#er').textContent='Введите почту и пароль не короче 8 знаков.';return}
+    if(authMode==='up'){const by=+$('#by').value,nm=$('#un').value.trim();
+      if(!nm||by<1920||by>new Date().getFullYear()){$('#er').textContent='Укажите имя и настоящий год рождения.';return}
+      const r=await sb.auth.signUp({email:em,password:pw,options:{data:{name:nm,birth_year:by}}});
+      if(r.error){$('#er').textContent=r.error.message;return}
+      if(r.data.session)boot(r.data.session);else $('#er').textContent='Готово! Мы отправили письмо: подтвердите почту и войдите.'}
+    else{const r=await sb.auth.signInWithPassword({email:em,password:pw});if(r.error){$('#er').textContent='Неверная почта или пароль.';return}boot(r.data.session)}}
+  else if(a==='reset'){const em=$('#em').value.trim();if(!em){$('#er').textContent='Введите почту, и мы пришлём ссылку.';return}await sb.auth.resetPasswordForEmail(em);$('#er').textContent='Если такой аккаунт есть, письмо отправлено.'}
+  else if(a==='out'){await sb.auth.signOut();location.reload()}
+  else if(a==='chk'){const g=await sb.from('guardianship').select('*').eq('child_id',U.id).maybeSingle();GD=g.data;if(GD&&GD.approved)boot({user:U});else $('#ge').textContent='Родитель ещё не подтвердил.'}
+  else if(a==='pick'){PF={mode:i,robot_name:$('#rn').value.trim()||'Бо',robot_hue:PF&&PF.robot_hue||HUES[0]};await savePrefs();$('#ob').hidden=true;await loadAll();render();tab(0);mood('happy',1500);say('Приятно познакомиться! Я '+bn()+'. Что запланируем?')}
+  else if(a==='sw'){PF=PF||{mode:'biz',robot_name:'Бо'};PF.robot_hue=i;paint(i);document.querySelectorAll('#sws .sw').forEach(b=>b.classList.toggle('on',b.dataset.i===i))}
+  else if(a==='hue'){PF.robot_hue=i;await savePrefs();render()}
+  else if(a==='rname'){const v=$('#rn2').value.trim();if(v){PF.robot_name=v;await savePrefs();render();say('Теперь меня зовут '+v+'!');mood('happy')}}
+  else if(a==='prof'){PF.mode=i;await savePrefs();render();toast('Профиль: '+P().n)}
+  else if(a==='addi'){const v=$('#at').value.trim();if(!v){$('#at').focus();toast('Введите название');return}const r=await sb.from('items').insert({k:$('#ak').value,t:v,h:$('#ah').value}).select().single();if(r.error){toast('Не удалось сохранить');return}items.push(r.data);render();mood('happy')}
+  else if(a==='done'){const x=items.find(z=>z.id===i);x.d=!x.d;render();await sb.from('items').update({d:x.d}).eq('id',i);if(x.d){confetti();mood('happy',1500);say(items.every(z=>z.d)?'Всё сделано! Вы молодец!':'Отлично, ещё одно готово!')}}
+  else if(a==='deli'){items=items.filter(z=>z.id!==i);render();await sb.from('items').delete().eq('id',i)}
+  else if(a==='addn'){const v=$('#ni').value.trim();if(v){const r=await sb.from('notes').insert({t:v}).select().single();if(!r.error){notes.unshift(r.data);$('#ni').value='';rNote();mood('happy')}}}
+  else if(a==='deln'){notes=notes.filter(z=>z.id!==i);rNote();await sb.from('notes').delete().eq('id',i)}
+  else if(a==='send'){const v=$('#in');if(v.value.trim()){ask(v.value.trim());v.value=''}}
+  else if(a==='ok'||a==='no'){const pr=props[+i];if(a==='ok'&&pr){if(pr.n){const r=await sb.from('notes').insert({t:pr.t}).select().single();if(!r.error)notes.unshift(r.data)}else{const r=await sb.from('items').insert({k:pr.k,t:pr.t,h:pr.h,w:pr.w}).select().single();if(!r.error)items.push(r.data)}render();mood('happy');toast('Добавлено')}t.closest('.r').remove()}
+  else if(a==='claim'){const c=$('#kc').value.trim();if(!c)return;const r=await sb.rpc('claim_child',{_code:c});if(r.data){await loadAll();rProf();toast('Опека подтверждена')}else toast('Код не найден или уже использован')}
+  else if(a==='kai'){const k=kids.find(z=>z.child_id===i);await sb.from('guardianship').update({ai_enabled:!k.ai_enabled}).eq('child_id',i);k.ai_enabled=!k.ai_enabled;rProf()}
+}
+document.addEventListener('click',onClick);
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const m={in:'send',ni:'addn',at:'addi',pw:'auth'}[e.target.id];if(m)document.querySelector('[data-a="'+m+'"]').click()});
+$('#sws').innerHTML=HUES.map((c,k)=>'<button class="sw'+(k?'':' on')+'" style="background:'+c+'" data-a="sw" data-i="'+c+'" aria-label="Цвет '+c+'"></button>').join('');
+$('#pl').innerHTML=Object.keys(PR).map(k=>'<button class="pc" data-a="pick" data-i="'+k+'"><b>'+PR[k].n+'</b><span>'+PR[k].d+'</span></button>').join('');
+(async()=>{
+  if(SB_URL.startsWith('ВСТАВЬТЕ')){$('#auth').hidden=false;$('#auth').innerHTML='<h1>Нужно подключить сервер</h1><p>Откройте файл index.html в текстовом редакторе и впишите адрес проекта Supabase и публичный ключ в начале скрипта (строка с SB_URL). Шаги в инструкции.</p>';return}
+  sb=supabase.createClient(SB_URL,SB_KEY);
+  const{data}=await sb.auth.getSession();
+  if(data.session)boot(data.session);else{$('#auth').hidden=false;say('Привет! Я ваш секретарь.')}
+  sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_IN'&&s&&!U)boot(s)});
+  document.addEventListener('visibilitychange',async()=>{if(!document.hidden&&U&&PF&&(!GD||GD.approved)){await loadAll();render()}});
+})();
+</script>
+</body>
+</html>
