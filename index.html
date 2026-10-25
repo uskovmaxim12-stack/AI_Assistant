@@ -303,9 +303,9 @@ aside .me svg{width:2.5rem;height:2.5rem}.aside small{color:var(--l2)}
 <div class="gh">Кто вы?</div><div class="grp" id="pl"></div></div></div>
 <script>
 const ALICE_APP_VERSION='7.0.0';
-let ALICE_UPDATE_MANIFEST_URL='sb_publishable_h1_rQXwBVsLb-wg9BtCq6g_gVqgJw2f';
+let ALICE_UPDATE_MANIFEST_URL='';
 try{ALICE_UPDATE_MANIFEST_URL=localStorage.getItem('alice_update_manifest')||ALICE_UPDATE_MANIFEST_URL}catch(e){}
-const SB_URL='https://ivhtwyzvfmtvjkmalnif.supabase.co',SB_KEY='';
+const SB_URL='https://ivhtwyzvfmtvjkmalnif.supabase.co',SB_KEY='sb_publishable_h1_rQXwBVsLb-wg9BtCq6g_gVqgJw2f';
 const BASE=SB_URL.replace(/\/rest\/v1\/?\*?$/,'').replace(/\/$/,'');let KEY=SB_KEY;try{if(new URLSearchParams(location.search).get('owner')==='1')KEY=localStorage.getItem('bo_key')||SB_KEY}catch(e){}KEY=KEY.replace(/[*\s]/g,'');
 // Технический режим доступен только по ссылке владельца ?owner=1.
 const OWNER_SETUP=new URLSearchParams(location.search).get('owner')==='1';
