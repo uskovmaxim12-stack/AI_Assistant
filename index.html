@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F2F2F7">
-<title>Алиса — личный помощник · версия 7.4.0</title>
+<title>Алиса — личный помощник · версия 7.5.0</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
 <style>
 html{font-size:clamp(16px,calc(11px + .45vw),24px)}
@@ -364,6 +364,109 @@ body,.pg{overflow-x:hidden}.pg *{min-width:0}
   .in{padding-left:1.5rem;padding-right:1.5rem}
 }
 
+
+/* Alice 7.5.0 — mobile-first layout and low-workload service menus */
+html{height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-height:100%;overscroll-behavior:none}
+.app{height:100vh;height:100dvh;min-height:0;width:100%;overflow:hidden}
+main{min-height:0;min-width:0;width:100%;overflow-x:hidden}
+.pg{min-width:0;max-width:100%;width:100%}
+.in{width:100%;min-width:0}
+.tb{flex:none}
+#sh{padding-top:env(safe-area-inset-top,0px)}
+#sh .pn{width:100%;max-width:620px;max-height:min(90vh,860px);max-height:min(90dvh,860px);border-radius:22px 22px 0 0;overflow:hidden}
+#sh .hd{flex:none;position:relative;z-index:1;background:var(--bg);border-bottom:1px solid var(--sep);padding:12px 16px 11px;min-height:52px}
+#sh .hd b{max-width:min(58vw,420px);overflow-wrap:anywhere;text-align:center}
+#shB{min-height:0;overscroll-behavior:contain;padding:14px 16px calc(18px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch}
+#shB>.toolbox{padding:0 0 6px}
+.toolbox .bt{min-height:48px;height:auto;padding:12px 16px;white-space:normal;line-height:1.25}
+.toolbox .field{gap:7px;margin:14px 0}
+.toolbox .field label{font-size:14px;line-height:1.35}
+.toolbox input,.toolbox select,.toolbox textarea{font-size:16px;line-height:1.4;border-radius:13px;padding:12px 13px}
+.toolbox textarea{resize:vertical;min-height:112px;max-height:40dvh}
+.toolbox .toolout{font:500 15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:48px;max-height:32dvh;overflow:auto;overscroll-behavior:contain}
+.tools-intro{padding:15px;border-radius:17px}
+.tools-intro p{font-size:14px}
+.tools-cat{margin:20px 2px 9px;font-size:12px;letter-spacing:.06em}
+.tools-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 16px}
+  .toolbox .fields2{grid-template-columns:minmax(0,1fr);gap:0}
+.tool-card{width:100%;min-height:76px;height:auto;align-items:center;gap:12px;padding:12px;border-radius:15px;box-shadow:none;text-align:left}
+.tool-icon{width:44px;height:44px;border-radius:13px;font-size:22px}
+.tool-copy{flex:1;min-width:0}
+.tool-copy b{font-size:15px;line-height:1.3;margin:0 0 4px}
+.tool-copy span{font-size:13px;line-height:1.35}
+.tool-open{flex:none;align-self:center;color:var(--l3);font-size:25px;line-height:1;padding:0 3px}
+.tool-card:focus-visible,.bt:focus-visible,.tool-actions button:focus-visible{outline:2px solid var(--tint);outline-offset:2px}
+.tools-empty{padding:18px 14px;background:var(--card);border-radius:14px}
+.toolbox .fields2>.field{min-width:0}
+.tool-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tool-actions button{min-width:0;min-height:44px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}
+.tool-list-row{gap:10px;padding:12px 10px;min-height:54px}
+.tool-list-row>span{flex:1;min-width:0;overflow-wrap:anywhere;line-height:1.35}
+.tool-list-row input{width:22px;height:22px;flex:none}
+.tool-delete{min-height:38px;padding:7px 9px;border-radius:10px;background:color-mix(in srgb,var(--red),transparent 91%);color:var(--red);font-size:13px;font-weight:650;flex:none}
+.sr{height:46px;border-radius:13px;padding:0 12px}
+.sr input{font-size:16px}
+.bt{min-height:48px}
+.lt{gap:10px}
+.lt h1{font-size:clamp(27px,7vw,34px);line-height:1.12}
+.lt small{font-size:13px;line-height:1.4}
+.rw{min-height:48px}
+.tb{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--card)}
+.bar{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--bg)}
+#toast{bottom:calc(68px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 28px)}
+@media(max-width:600px){
+  html{font-size:16px}
+  .app{max-width:100vw}
+  .tools-grid{grid-template-columns:minmax(0,1fr)}
+  .in{padding:calc(2.75rem + env(safe-area-inset-top,0px)) 14px calc(18px + env(safe-area-inset-bottom,0px));max-width:none}
+  .lt{padding-top:10px;padding-bottom:12px}
+  .pg,.pg .in{overflow-wrap:anywhere}
+  .tb{gap:0;padding:4px 3px calc(3px + env(safe-area-inset-bottom,0px));min-height:calc(60px + env(safe-area-inset-bottom,0px))}
+  .tb button{gap:4px;padding:5px 0 3px;font-size:10px;min-width:0}
+  .tb button .ic{width:23px;height:23px}
+  .tb button span{font-size:10px;line-height:1.1;max-width:100%;white-space:nowrap;letter-spacing:-.2px}
+  .cmp{gap:6px;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px))}
+  .cmp label{min-width:0;padding:12px 13px}
+  .cmp input{font-size:16px}
+  .voice-btn{width:42px;height:42px}
+  .cmp .go{width:42px;height:42px}
+  .msg{gap:7px}
+  .m{max-width:88%;font-size:16px;line-height:1.45;padding:10px 13px}
+  .ac{align-items:flex-start;gap:10px;padding:12px}
+  .ac .av{width:42px;height:42px;border-radius:12px}
+  .ac .av svg{width:36px;height:36px}
+  .tls{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tl{min-width:0;padding:11px;border-radius:14px}
+  .mg{gap:1px}
+  .mg .dy{min-height:43px}
+  .mg .dy b{width:min(2.1rem,9vw);height:min(2.1rem,9vw);font-size:14px;border-radius:9px}
+  .mg>span{font-size:10px}
+  .news-actions button{min-height:42px}
+  .news-tabs button{min-height:38px}
+  .timeline-head,.timeline-row{grid-template-columns:78px minmax(0,1fr)}
+  .timeline-name{font-size:11px;overflow-wrap:anywhere}
+  .timeline-hours span{font-size:8px}
+  .focus-card{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .bot .bd2,.bot .eye,.bot .ant{animation:none!important;transition:none!important}
+  .pg,.m,.tool-card,#sh .pn,#sh .bk{animation:none!important;transition:none!important}
+}
+@media(max-width:380px){
+  .in{padding-left:11px;padding-right:11px}
+  .tool-card{padding:10px;gap:10px}
+  .tool-icon{width:40px;height:40px;font-size:20px}
+  .tool-copy b{font-size:14px}
+  .tool-copy span{font-size:12px}
+  .tb button span{font-size:9px}
+  .tool-actions{grid-template-columns:minmax(0,1fr)}
+  #shB{padding-left:13px;padding-right:13px}
+}
+@media(min-width:601px) and (max-width:899px){
+  .in{padding-left:22px;padding-right:22px}
+  .tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){.tool-card,.pg,.m,#sh .pn,#sh .bk{animation:none!important;transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -420,7 +523,7 @@ body,.pg{overflow-x:hidden}.pg *{min-width:0}
 <div class="grp"><div class="rw pad" id="sws" style="gap:12px;flex-wrap:wrap"></div></div>
 <div class="gh">Кто вы?</div><div class="grp" id="pl"></div></div></div>
 <script>
-const ALICE_APP_VERSION='7.4.0';
+const ALICE_APP_VERSION='7.5.0';
 let ALICE_UPDATE_MANIFEST_URL='';
 try{ALICE_UPDATE_MANIFEST_URL=localStorage.getItem('alice_update_manifest')||ALICE_UPDATE_MANIFEST_URL}catch(e){}
 const SB_URL='https://ivhtwyzvfmtvjkmalnif.supabase.co',SB_KEY='sb_publishable_h1_rQXwBVsLb-wg9BtCq6g_gVqgJw2f';
@@ -646,9 +749,7 @@ function row(i,sd){const m=[i.h,sd?dl(i.day):'',i.duration_minutes>0?durationTex
 const grp=(t,L,sd,em)=>(t?'<div class="gh">'+t+'</div>':'')+'<div class="grp">'+(L.length?L.map(i=>row(i,sd)).join(''):'<div class="emp">'+(em||'Пока ничего.')+'</div>')+'</div>';
 
 const TOOL_CATALOG=[
- {id:'calc',cat:'Расчёты',icon:'🧮',name:'Калькулятор',desc:'Выражения, скобки и проценты'},
- {id:'percent',cat:'Расчёты',icon:'％',name:'Проценты',desc:'Доля, скидка и изменение цены'},
- {id:'convert',cat:'Расчёты',icon:'↔️',name:'Конвертер единиц',desc:'Длина, масса, время, скорость, температура'},
+ {id:'calc',cat:'Расчёты',icon:'🧮',name:'Калькулятор',desc:'Выражения, скобки и основные операции'},
  {id:'dates',cat:'Расчёты',icon:'📅',name:'Даты и сроки',desc:'Сколько дней между датами или до события'},
  {id:'grade',cat:'Учёба',icon:'🎓',name:'Средний балл',desc:'Посчитай среднее по оценкам'},
  {id:'focus',cat:'Учёба и продуктивность',icon:'⏱️',name:'Фокус-таймер',desc:'Помодоро, пауза и короткие перерывы'},
@@ -656,18 +757,17 @@ const TOOL_CATALOG=[
  {id:'planner',cat:'Учёба и продуктивность',icon:'🗓️',name:'Планировщик дня',desc:'Собери дела по времени и приоритету'},
  {id:'words',cat:'Текст',icon:'📝',name:'Счётчик текста',desc:'Слова, символы, строки и чтение'},
  {id:'text',cat:'Текст',icon:'✨',name:'Обработка текста',desc:'Очистка, сортировка, регистр и повторы'},
- {id:'password',cat:'Генераторы',icon:'🔐',name:'Пароль',desc:'Создать случайный пароль на устройстве'},
  {id:'random',cat:'Генераторы',icon:'🎲',name:'Случайный выбор',desc:'Число, монетка, кубик или вариант'},
  {id:'shopping',cat:'Повседневные дела',icon:'🛒',name:'Список покупок',desc:'Отмечай купленное, список сохраняется'},
  {id:'image',cat:'Файлы',icon:'🖼️',name:'Сжать изображение',desc:'Уменьшить JPG/PNG в браузере'},
  {id:'file',cat:'Файлы',icon:'📄',name:'Информация о файле',desc:'Размер, тип и дата без загрузки на сервер'},
- {id:'email',cat:'Помощники',icon:'✉️',name:'Черновик сообщения',desc:'Собрать структуру письма за минуту'},
 ];
 let TOOLS_Q='';
 function toolsListHTML(q=''){
- const list=TOOL_CATALOG.filter(x=>!q||(x.name+' '+x.desc+' '+x.cat).toLocaleLowerCase('ru').includes(q.toLocaleLowerCase('ru')));
- if(!list.length)return '<div class="emp">Ничего не найдено. Попробуй другое слово.</div>';
- let html='',last='';for(const x of list){if(x.cat!==last){last=x.cat;html+='<div class="tools-cat">'+esc(last)+'</div><div class="tools-grid">'}html+='<button class="tool-card" data-a="openTool" data-i="'+x.id+'"><span class="tool-icon">'+x.icon+'</span><span class="tool-copy"><b>'+esc(x.name)+'</b><span>'+esc(x.desc)+'</span></span></button>';const next=list[list.indexOf(x)+1];if(!next||next.cat!==last)html+='</div>'}return html;
+ const query=String(q||'').trim().toLocaleLowerCase('ru');
+ const list=TOOL_CATALOG.filter(x=>!query||(x.name+' '+x.desc+' '+x.cat).toLocaleLowerCase('ru').includes(query));
+ if(!list.length)return '<div class="emp tools-empty">Ничего не найдено. Попробуй другое слово.</div>';
+ let html='',last='';list.forEach((x,index)=>{if(x.cat!==last){if(last)html+='</div>';last=x.cat;html+='<div class="tools-cat">'+esc(last)+'</div><div class="tools-grid">'}html+='<button type="button" class="tool-card" data-a="openTool" data-i="'+x.id+'"><span class="tool-icon">'+x.icon+'</span><span class="tool-copy"><b>'+esc(x.name)+'</b><span>'+esc(x.desc)+'</span></span><span class="tool-open" aria-hidden="true">›</span></button>';if(index===list.length-1)html+='</div>'});return html;
 }
 function rTools(){const el=$('#i4');if(!el)return;el.innerHTML='<div class="lt"><div><h1>Сервисы</h1><small>Маленькие инструменты для повседневных задач</small></div></div><div class="tools-intro"><h2>Чем помочь прямо сейчас?</h2><p>Калькуляторы, учёба, планирование и бытовые инструменты. Основные действия выполняются на устройстве — без ожидания сторонних сервисов.</p></div><label class="sr">'+ic('search')+'<input id="toolSearch" placeholder="Найти инструмент или задачу…" value="'+esc(TOOLS_Q)+'" aria-label="Поиск сервисов"></label><div id="tools-list">'+toolsListHTML(TOOLS_Q)+'</div>'}
 function safeMath(raw){
@@ -677,22 +777,11 @@ function safeMath(raw){
  let p=0;function expr(){let v=term();while(tokens[p]==='+'||tokens[p]==='-'){const op=tokens[p++],r=term();v=op==='+'?v+r:v-r}return v}function term(){let v=factor();while(tokens[p]==='*'||tokens[p]==='/'){const op=tokens[p++],r=factor();if(op==='/'&&r===0)throw Error('На ноль делить нельзя.');v=op==='*'?v*r:v/r}return v}function factor(){let sign=1;while(tokens[p]==='+'||tokens[p]==='-'){if(tokens[p++]==='-')sign*=-1}let v;if(tokens[p]==='('){p++;v=expr();if(tokens[p++]!==')')throw Error('Проверь скобки.')}else{const z=tokens[p++];if(!z||!/^\d/.test(z)&&!z.startsWith('.'))throw Error('Проверь выражение.');v=Number(z)}while(tokens[p]==='%'){p++;v/=100}return sign*v}
  const result=expr();if(p!==tokens.length||!Number.isFinite(result))throw Error('Не удалось вычислить выражение.');return result;
 }
-const UNIT_GROUPS={
- length:[['mm','мм',.001],['cm','см',.01],['m','м',1],['km','км',1000],['in','дюйм',.0254],['ft','фут',.3048],['mi','миля',1609.344]],
- mass:[['mg','мг',.000001],['g','г',.001],['kg','кг',1],['t','т',1000],['oz','унция',.028349523125],['lb','фунт',.45359237]],
- time:[['s','секунда',1],['min','минута',60],['h','час',3600],['day','день',86400],['week','неделя',604800]],
- speed:[['mps','м/с',1],['kmh','км/ч',1/3.6],['mph','миль/ч',.44704],['knot','узел',.514444]],
- data:[['B','байт',1],['KB','КБ',1024],['MB','МБ',1048576],['GB','ГБ',1073741824]],
- temp:[['C','°C',0],['F','°F',0],['K','К',0]]
-};
-function unitConvert(v,from,to,group){v=Number(v);if(!Number.isFinite(v))throw Error('Введите число.');if(group==='temp'){let c=from==='F'?(v-32)*5/9:from==='K'?v-273.15:v;return to==='F'?c*9/5+32:to==='K'?c+273.15:c}const list=UNIT_GROUPS[group],f=list.find(x=>x[0]===from),t=list.find(x=>x[0]===to);if(!f||!t)throw Error('Выберите единицы измерения.');return v*f[2]/t[2]}
 function toolInput(label,id,value='',type='text',extra=''){return '<div class="field"><label for="'+id+'">'+label+'</label><input id="'+id+'" type="'+type+'" value="'+esc(String(value))+'" '+extra+'></div>'}
 function openTool(id){
  const common='<div class="toolbox">';let title='',body='',run='Выполнить';
  switch(id){
- case 'calc':title='Калькулятор';body=toolInput('Выражение','toolExpr','(125+75)*1.2')+'<p class="tool-hint">Поддерживаются +, −, ×, ÷, скобки и проценты. Вычисление проходит на устройстве.</p><button class="bt" data-a="toolrun" data-i="calc">Посчитать</button><pre class="toolout" id="toolOut">Результат появится здесь.</pre>';break;
- case 'percent':title='Проценты';body=toolInput('Число','pctBase','150')+toolInput('Процент','pctValue','20')+'<div class="field"><label for="pctMode">Что посчитать</label><select id="pctMode"><option value="of">Сколько составляет X% от числа</option><option value="plus">Увеличить число на X%</option><option value="minus">Уменьшить число на X%</option></select></div><button class="bt" data-a="toolrun" data-i="percent">Посчитать</button><pre class="toolout" id="toolOut"></pre>';break;
- case 'convert':title='Конвертер единиц';body='<div class="field"><label for="convGroup">Величина</label><select id="convGroup">'+[['length','Длина'],['mass','Масса'],['time','Время'],['speed','Скорость'],['data','Размер данных'],['temp','Температура']].map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('')+'</select></div>'+toolInput('Значение','convVal','1','number')+'<div class="fields2"><div class="field"><label for="convFrom">Из</label><select id="convFrom"></select></div><div class="field"><label for="convTo">В</label><select id="convTo"></select></div></div><button class="bt" data-a="toolrun" data-i="convert">Перевести</button><pre class="toolout" id="toolOut"></pre>';break;
+ case 'calc':title='Калькулятор';body=toolInput('Выражение','toolExpr','(125+75)*1.2')+'<p class="tool-hint">Поддерживаются +, −, ×, ÷ и скобки. Вычисление проходит на устройстве.</p><button class="bt" data-a="toolrun" data-i="calc">Посчитать</button><pre class="toolout" id="toolOut">Результат появится здесь.</pre>';break;
  case 'dates':title='Даты и сроки';body=toolInput('Первая дата','dateFrom',TODAY(),'date')+toolInput('Вторая дата','dateTo',iso(addD(7)),'date')+'<button class="bt" data-a="toolrun" data-i="dates">Посчитать разницу</button><pre class="toolout" id="toolOut"></pre>';break;
  case 'grade':title='Средний балл';body=toolInput('Оценки через запятую','gradeValues','5, 4, 5, 3')+'<p class="tool-hint">Можно вводить оценки от 1 до 5 либо баллы — калькулятор найдёт обычное среднее.</p><button class="bt" data-a="toolrun" data-i="grade">Посчитать</button><pre class="toolout" id="toolOut"></pre>';break;
  case 'habits':title='Мои привычки';body='<div class="tools-intro"><h2>Маленькие шаги каждый день</h2><p>Отмечай привычки — прогресс сохраняется на этом устройстве.</p></div><div class="fields2"><div class="field" style="flex:1"><label for="habitNew">Новая привычка</label><input id="habitNew" maxlength="80" placeholder="Например, читать 10 минут"></div><button class="bt" style="align-self:end;margin-bottom:10px" data-a="habitAdd">Добавить</button></div><div id="habitBody">'+habitHTML()+'</div>';break;
@@ -700,23 +789,19 @@ function openTool(id){
  case 'planner':title='Планировщик дня';body='<p>Алиса соберёт незавершённые дела, оценит приоритет и предложит реалистичную последовательность. Можно начать с этого плана и поправить расписание.</p><button class="bt" data-a="toolrun" data-i="planner">Составить план</button><pre class="toolout" id="toolOut"></pre><button class="bt s" data-a="toolAsk" data-i="Составь план дня">Открыть в чате</button>';break;
  case 'words':title='Счётчик текста';body='<div class="field"><label for="wordText">Текст</label><textarea id="wordText" rows="7" placeholder="Вставь сюда текст…"></textarea></div><button class="bt" data-a="toolrun" data-i="words">Посчитать</button><pre class="toolout" id="toolOut"></pre>';break;
  case 'text':title='Обработка текста';body='<div class="field"><label for="textSource">Исходный текст</label><textarea id="textSource" rows="7" placeholder="Вставь или напиши текст…"></textarea></div><div class="tool-actions"><button data-a="textOp" data-i="trim">Убрать лишние пробелы</button><button data-a="textOp" data-i="upper">ВЕРХНИЙ РЕГИСТР</button><button data-a="textOp" data-i="lower">нижний регистр</button><button data-a="textOp" data-i="sort">Сортировать строки</button><button data-a="textOp" data-i="dedupe">Убрать повторы</button><button data-a="textOp" data-i="latin">Транслитерация</button><button data-a="textOp" data-i="reverse">Перевернуть текст</button></div><div class="field"><label for="textResult">Результат</label><textarea id="textResult" rows="6" readonly placeholder="Здесь будет результат"></textarea></div><button class="bt s" data-a="textCopy">Скопировать результат</button>';break;
- case 'password':title='Генератор паролей';body=toolInput('Длина (8–64)','passLength','18','number','min="8" max="64"')+'<div class="field"><label for="passSymbols">Состав</label><select id="passSymbols"><option value="all">Буквы, цифры и символы</option><option value="alnum">Буквы и цифры</option><option value="letters">Только буквы</option></select></div><button class="bt" data-a="toolrun" data-i="password">Создать пароль</button><pre class="toolout" id="toolOut"></pre><button class="bt s" data-a="toolCopy">Скопировать результат</button><p class="tool-hint">Пароль создаётся в вашем браузере. Не используйте один пароль на разных сайтах.</p>';break;
  case 'random':title='Случайный выбор';body=toolInput('Минимум','randMin','1','number')+toolInput('Максимум','randMax','100','number')+'<button class="bt" data-a="toolrun" data-i="random">Случайное число</button><div class="tool-actions"><button data-a="toolrun" data-i="coin">🪙 Подбросить монетку</button><button data-a="toolrun" data-i="dice">🎲 Бросить кубик</button></div><div class="field"><label for="choiceText">Список вариантов — по одному на строку</label><textarea id="choiceText" rows="4" placeholder="Пицца\nСуши\nПаста"></textarea></div><button class="bt s" data-a="toolrun" data-i="choice">Выбрать за меня</button><pre class="toolout" id="toolOut"></pre>';break;
  case 'shopping':title='Список покупок';body=toolInput('Добавить пункт','shopNew','','text','placeholder="Молоко, хлеб…"')+'<button class="bt" data-a="shopAdd">Добавить</button><div id="shoppingList">'+shoppingListHTML()+'</div><div class="tool-actions"><button class="soft" data-a="shopClear">Удалить отмеченное</button></div>';break;
  case 'image':title='Сжать изображение';body='<div class="field"><label for="imageFile">Выбери изображение</label><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp"></div>'+toolInput('Максимальная ширина или высота (пиксели)','imageMax','1600','number','min="100" max="8000"')+'<p class="tool-hint">Файл обрабатывается на вашем устройстве и не загружается на сервер. Результат можно скачать.</p><button class="bt" data-a="toolrun" data-i="image">Сжать и скачать</button><pre class="toolout" id="toolOut"></pre>';break;
  case 'file':title='Информация о файле';body='<div class="field"><label for="infoFile">Выбери файл</label><input id="infoFile" type="file"></div><pre class="toolout" id="toolOut">Данные о файле появятся после выбора.</pre>';break;
 
- case 'email':title='Черновик сообщения';body=toolInput('Кому','mailTo','')+toolInput('Тема','mailSubject','')+'<div class="field"><label for="mailGoal">Что нужно сообщить?</label><textarea id="mailGoal" rows="4" placeholder="Кратко опиши цель и ключевые факты"></textarea></div><div class="field"><label for="mailTone">Тон</label><select id="mailTone"><option value="polite">Вежливо и нейтрально</option><option value="formal">Официально</option><option value="friendly">Дружелюбно</option></select></div><button class="bt" data-a="toolrun" data-i="email">Собрать черновик</button><textarea id="mailOut" rows="8" class="toolout" style="width:100%" readonly></textarea><button class="bt s" data-a="toolCopyMail">Скопировать</button>';break;
  default:return;
  }
  openSheet(title,common+body+'</div>','','','Закрыть');
- if(id==='convert')refreshUnitSelects();
 }
 function toolOut(v){const e=$('#toolOut');if(e)e.textContent=String(v??'')}
-function refreshUnitSelects(){const g=$('#convGroup'),from=$('#convFrom'),to=$('#convTo');if(!g||!from||!to)return;const a=UNIT_GROUPS[g.value];const opts=a.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('');from.innerHTML=opts;to.innerHTML=opts;to.selectedIndex=Math.min(2,a.length-1)}
 function fmtNum(n){return Number(n).toLocaleString('ru-RU',{maximumFractionDigits:8})}
 function shoppingListRead(){try{return JSON.parse(localStorage.getItem('alice_shopping_list')||'[]')}catch(e){return []}}
-function shoppingListHTML(){const l=shoppingListRead();return l.length?'<div class="grp" style="margin-top:12px">'+l.map((x,i)=>'<label class="tool-list-row"><input type="checkbox" data-a="shopToggle" data-i="'+i+'" '+(x.done?'checked':'')+'><span class="'+(x.done?'done-text':'')+'">'+esc(x.text)+'</span><button style="margin-left:auto;color:var(--red)" data-a="shopDelete" data-i="'+i+'" aria-label="Удалить">×</button></label>').join('')+'</div>':'<div class="emp">Список пока пуст.</div>'}
+function shoppingListHTML(){const l=shoppingListRead();return l.length?'<div class="grp tool-shopping-list" style="margin-top:12px">'+l.map((x,i)=>'<div class="tool-list-row"><input type="checkbox" data-a="shopToggle" data-i="'+i+'" '+(x.done?'checked':'')+' aria-label="Куплено: '+esc(x.text)+'"><span class="'+(x.done?'done-text':'')+'">'+esc(x.text)+'</span><button class="tool-delete" data-a="shopDelete" data-i="'+i+'" aria-label="Удалить '+esc(x.text)+'">Удалить</button></div>').join('')+'</div>':'<div class="emp">Список пока пуст. Добавь первый пункт выше.</div>'}
 function randomIndex(max){if(max<=0)return 0;if(window.crypto&&crypto.getRandomValues){const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%max}return Math.floor(Math.random()*max)}
 
 function translit(text){const map={а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'yo',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya'};return Array.from(text).map(c=>map[c.toLowerCase()]===undefined?c:map[c.toLowerCase()]).join('')}
@@ -724,19 +809,15 @@ function runTool(id){try{
  if(id.startsWith('focus:')){closeSheet();startFocusTimer(Number(id.split(':')[1]));return}
  switch(id){
  case 'calc':toolOut(fmtNum(safeMath($('#toolExpr').value)));break;
- case 'percent':{const rawN=$('#pctBase').value.trim(),rawP=$('#pctValue').value.trim();if(!rawN||!rawP)throw Error('Заполни оба поля числами.');const n=Number(rawN),p=Number(rawP),m=$('#pctMode').value;if(!Number.isFinite(n)||!Number.isFinite(p))throw Error('Введи корректные числа.');toolOut(m==='of'?fmtNum(n*p/100):m==='plus'?fmtNum(n*(1+p/100)):fmtNum(n*(1-p/100)));break}
- case 'convert':toolOut(fmtNum(unitConvert($('#convVal').value,$('#convFrom').value,$('#convTo').value,$('#convGroup').value))+' '+$('#convTo').selectedOptions[0].textContent);break;
  case 'dates':{const a=$('#dateFrom').value,b=$('#dateTo').value;if(!a||!b)throw Error('Выбери обе даты.');const da=new Date(a+'T12:00:00'),db=new Date(b+'T12:00:00');if(!Number.isFinite(da.getTime())||!Number.isFinite(db.getTime()))throw Error('Проверь формат обеих дат.');const d=Math.round((db-da)/86400000);toolOut('Разница: '+Math.abs(d)+' '+(Math.abs(d)%10===1&&Math.abs(d)%100!==11?'день':Math.abs(d)%10>=2&&Math.abs(d)%10<=4&&!(Math.abs(d)%100>=12&&Math.abs(d)%100<=14)?'дня':'дней')+'.\n'+(d>0?'Вторая дата позже на '+d+' дней.':d<0?'Первая дата позже на '+(-d)+' дней.':'Это один и тот же день.'));break}
  case 'grade':{const a=$('#gradeValues').value.split(/[;,\s]+/).filter(Boolean).map(Number);if(!a.length||a.some(x=>!Number.isFinite(x)))throw Error('Введи оценки числами через запятую.');toolOut('Количество оценок: '+a.length+'\nСредний балл: '+fmtNum(a.reduce((x,y)=>x+y,0)/a.length)+'\nМинимум: '+Math.min(...a)+' · Максимум: '+Math.max(...a));break}
  case 'planner':{const T=TODAY(),open=items.filter(x=>!x.d&&x.day>=T).sort((a,b)=>a.day.localeCompare(b.day)||(a.h||'99:99').localeCompare(b.h||'99:99')||(b.prio||0)-(a.prio||0));toolOut(open.length?open.slice(0,15).map((x,n)=>(n+1)+'. '+(x.day===T?'Сегодня':dl(x.day))+(x.h?' · '+x.h:'')+' — '+x.t+(x.prio?' ★':'')).join('\n')+'\n\nСовет: начни с ближайшего по времени дела; крупные задачи разбей на шаги и оставь запас между встречами.':'Пока нет незавершённых дел. Добавь их на вкладке «Сегодня» или напиши Алисе в чат.');break}
  case 'words':{const v=$('#wordText').value,words=v.trim()?v.trim().split(/\s+/u).length:0,lines=v? v.split(/\r\n|\r|\n/).length:0,reading=Math.ceil(words/180);toolOut('Слов: '+words+'\nСимволов с пробелами: '+v.length+'\nСимволов без пробелов: '+v.replace(/\s/g,'').length+'\nСтрок: '+lines+'\nПримерное время чтения: '+reading+' мин.');break}
- case 'password':{const len=Math.max(8,Math.min(64,Number($('#passLength').value)||18)),set=$('#passSymbols').value;let pool='';if(set!=='letters')pool+='0123456789';pool+='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';if(set==='all')pool+='!@#$%^&*()-_=+[]{};:,.?';let out='';for(let i=0;i<len;i++)out+=pool[randomIndex(pool.length)];toolOut(out);break}
  case 'random':{let a=Number($('#randMin').value),b=Number($('#randMax').value);if(!Number.isSafeInteger(a)||!Number.isSafeInteger(b)||b<a||b-a>1e9)throw Error('Введи целые границы; максимум должен быть не меньше минимума.');toolOut(String(a+randomIndex(b-a+1)));break}
  case 'coin':toolOut(randomIndex(2)?'Орёл 🪙':'Решка 🪙');break;
  case 'dice':toolOut('Выпало: '+(1+randomIndex(6))+' 🎲');break;
  case 'choice':{const a=$('#choiceText').value.split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean);if(!a.length)throw Error('Добавь хотя бы два варианта.');toolOut('Мой выбор: '+a[randomIndex(a.length)]);break}
  case 'image':{const btn=$('[data-a=toolrun][data-i=\"image\"]');if(btn){btn.disabled=true;btn.textContent='Обрабатываю…'}toolOut('Обработка на устройстве…');processImageTool().catch(e=>toolOut('Не удалось обработать изображение: '+e.message)).finally(()=>{if(btn){btn.disabled=false;btn.textContent='Сжать и скачать'}});break}
- case 'email':{const to=$('#mailTo').value.trim(),sub=$('#mailSubject').value.trim(),goal=$('#mailGoal').value.trim(),tone=$('#mailTone').value;if(!goal)throw Error('Опиши, о чём письмо.');const hi=tone==='formal'?'Здравствуйте.':tone==='friendly'?'Привет!':'Здравствуйте!';const bye=tone==='friendly'?'Спасибо!':tone==='formal'?'С уважением,':'Буду благодарен за ответ.\nС уважением,';$('#mailOut').value=(to?'Кому: '+to+'\n':'')+(sub?'Тема: '+sub+'\n\n':'\n')+hi+'\n\n'+goal+'\n\n'+bye;break}
  default:break;
  }
  }catch(e){toolOut('Проверь данные: '+e.message)} }
@@ -1294,8 +1375,6 @@ async function onClick(e){
   case 'toolrun':runTool(i);break;
   case 'textOp':{const src=$('#textSource').value,lines=src.split(/\r?\n/);let out=src;if(i==='trim')out=src.replace(/[ \t]+/g,' ').replace(/ *\n */g,'\n').trim();if(i==='upper')out=src.toLocaleUpperCase('ru-RU');if(i==='lower')out=src.toLocaleLowerCase('ru-RU');if(i==='sort')out=lines.sort((a,b)=>a.localeCompare(b,'ru')).join('\n');if(i==='dedupe')out=[...new Set(lines)].join('\n');if(i==='latin')out=translit(src);if(i==='reverse')out=Array.from(src).reverse().join('');$('#textResult').value=out;break}
   case 'textCopy':await copyTextSafe($('#textResult').value,'Результат скопирован');break;
-  case 'toolCopy':await copyTextSafe($('#toolOut')?.textContent||'','Скопировано');break;
-  case 'toolCopyMail':await copyTextSafe($('#mailOut')?.value||'','Черновик скопирован');break;
   case 'toolAsk':tab(1);ask(i);break;
   case 'shopAdd':{const input=$('#shopNew'),v=input.value.trim();if(!v){toast('Напиши название пункта');break}const l=shoppingListRead();l.push({text:v,done:false});localStorage.setItem('alice_shopping_list',JSON.stringify(l));void syncAppState('alice_shopping_list',l);$('#shopNew').value='';$('#shoppingList').innerHTML=shoppingListHTML();toast('Добавлено в список');break}
   case 'shopToggle':{const l=shoppingListRead(),n=Number(i);if(l[n]){l[n].done=t.checked;localStorage.setItem('alice_shopping_list',JSON.stringify(l));void syncAppState('alice_shopping_list',l);$('#shoppingList').innerHTML=shoppingListHTML()}break}
@@ -1347,11 +1426,19 @@ async function onClick(e){
 const ALICE_ASYNC_ACTIONS=new Set(['auth','resend','reset','chk','pick','hue','prof','esave','manualForceSave','edel','done','clr','newsRefresh','newsCat','claim','kai','kreset','krel','newsFilter','oali','aliceRetry','aliceRefresh','aliceBegin','aliceAdd','aliceCheckPairing','otaCheck','ownerTestAlice','aoff','dgo','candel','wipe','qf','qt','send','ownerExport','ownerCopyAlice','ownerCopyYandexUrl','ownerSQL','aiSetup']);
 const ALICE_PENDING_ACTIONS=new WeakSet();
 document.addEventListener('click',async e=>{const el=e.target&&e.target.closest&&e.target.closest('[data-a]');if(!el||!ALICE_ASYNC_ACTIONS.has(el.dataset.a)){onClick(e).catch(x=>er(x));return}if(ALICE_PENDING_ACTIONS.has(el))return;ALICE_PENDING_ACTIONS.add(el);const canDisable='disabled'in el,wasDisabled=canDisable?el.disabled:false;if(canDisable)el.disabled=true;el.classList.add('action-pending');el.setAttribute('aria-busy','true');try{await onClick(e)}catch(x){er(x)}finally{ALICE_PENDING_ACTIONS.delete(el);el.classList.remove('action-pending');el.removeAttribute('aria-busy');if(canDisable)el.disabled=wasDisabled}});
-document.addEventListener('change',async e=>{if(e.target.id==='convGroup')refreshUnitSelects();if(e.target.id==='infoFile'){const f=e.target.files&&e.target.files[0];const o=$('#toolOut');if(o&&f)o.textContent='Имя: '+f.name+'\nТип: '+(f.type||'не определён')+'\nРазмер: '+(f.size<1024*1024?(f.size/1024).toFixed(1)+' КБ':(f.size/1024/1024).toFixed(2)+' МБ')+'\nИзменён: '+(f.lastModified?new Date(f.lastModified).toLocaleString('ru-RU'):'неизвестно')+'\nФайл не отправлялся в сеть.';}const a=e.target.dataset&&e.target.dataset.a;if(a==='qf'||a==='qt'){const id=e.target.dataset.i,k=kids.find(z=>z.child_id===id);if(!k)return;const pair=$$('input[data-a=\"qf\"],input[data-a=\"qt\"]').filter(x=>x.dataset.i===id);const from=pair.find(x=>x.dataset.a==='qf')?.value||'',to=pair.find(x=>x.dataset.a==='qt')?.value||'';const r=await sb.rpc('set_child_quiet_hours',{_child:id,_from:from,_to:to});if(r.error||r.data!==true){toast('Не удалось сохранить тихие часы');return}k.quiet_from=from;k.quiet_to=to;toast('Тихие часы сохранены')}if(e.target.id==='eh'){if(ED){ED.h=e.target.value;ED.touched=true;refreshEditorTime()}}if(e.target.id==='edur'){if(ED){ED.duration_minutes=Number(e.target.value||0);refreshEditorDuration()}}if(e.target.id==='rn2'){const v=e.target.value.trim();if(v){PF.robot_name=v;await savePrefs();render();say('Теперь меня зовут '+v+'.');mood('happy')}}});
+document.addEventListener('change',async e=>{if(e.target.id==='infoFile'){const f=e.target.files&&e.target.files[0];const o=$('#toolOut');if(o&&f)o.textContent='Имя: '+f.name+'\nТип: '+(f.type||'не определён')+'\nРазмер: '+(f.size<1024*1024?(f.size/1024).toFixed(1)+' КБ':(f.size/1024/1024).toFixed(2)+' МБ')+'\nИзменён: '+(f.lastModified?new Date(f.lastModified).toLocaleString('ru-RU'):'неизвестно')+'\nФайл не отправлялся в сеть.';}const a=e.target.dataset&&e.target.dataset.a;if(a==='qf'||a==='qt'){const id=e.target.dataset.i,k=kids.find(z=>z.child_id===id);if(!k)return;const pair=$$('input[data-a=\"qf\"],input[data-a=\"qt\"]').filter(x=>x.dataset.i===id);const from=pair.find(x=>x.dataset.a==='qf')?.value||'',to=pair.find(x=>x.dataset.a==='qt')?.value||'';const r=await sb.rpc('set_child_quiet_hours',{_child:id,_from:from,_to:to});if(r.error||r.data!==true){toast('Не удалось сохранить тихие часы');return}k.quiet_from=from;k.quiet_to=to;toast('Тихие часы сохранены')}if(e.target.id==='eh'){if(ED){ED.h=e.target.value;ED.touched=true;refreshEditorTime()}}if(e.target.id==='edur'){if(ED){ED.duration_minutes=Number(e.target.value||0);refreshEditorDuration()}}if(e.target.id==='rn2'){const v=e.target.value.trim();if(v){PF.robot_name=v;await savePrefs();render();say('Теперь меня зовут '+v+'.');mood('happy')}}});
 document.addEventListener('input',e=>{if(e.target.id==='newsSearch'){NEWS_QUERY=e.target.value;const box=document.querySelector('#i5 .news-list');if(box){const blocked=newsBlockedCategories(),q=NEWS_QUERY.toLocaleLowerCase('ru'),base=NEWS_SAVED_ONLY?newsSavedRead().filter(n=>!blocked.length||(n.cat&&!blocked.includes(n.cat))):NEWS_DATA,list=base.filter(x=>!q||((x.title||'')+' '+(x.description||'')+' '+(x.author||'')).toLocaleLowerCase('ru').includes(q));box.innerHTML=list.length?list.map(newsCardHTML).join(''):'<div class="news-status">Ничего не найдено.</div>'}}if(e.target.id==='toolSearch'){TOOLS_Q=e.target.value;const box=$('#tools-list');if(box)box.innerHTML=toolsListHTML(TOOLS_Q)}if(e.target.id==='sq'){Q=e.target.value;$('#res').hidden=!Q;$('#dash').hidden=!!Q;$('#res').innerHTML=Q?resHTML():''}if(e.target.id==='nq'){NQ=e.target.value;const f=e.target;rNote();const n=$('#nq');n.focus();n.setSelectionRange(NQ.length,NQ.length)}if(e.target.id==='aliceSecretInput'){const secret=e.target.value.trim(),preview=$('#aliceWebhookPreview');if(preview)preview.value=secret?ALICE_WEBHOOK_URL+'?k='+encodeURIComponent(secret):''}});
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closeSheet();return}
-  if(e.key==='Enter'){if(e.target.id==='cin')$('[data-a=send]').click();if(e.target.id==='pw')$('#go').click();if(e.target.id==='et'){e.preventDefault();$('#shR').click()}}
+  if(e.key==='Enter'){
+    if(e.target.id==='cin'){$('[data-a=send]').click();return}
+    if(e.target.id==='pw'){$('#go').click();return}
+    if(e.target.id==='et'){e.preventDefault();$('#shR').click();return}
+    if(e.target instanceof HTMLInputElement&&e.target.closest('#shB .toolbox')){
+      const action=e.target.id==='habitNew'?document.querySelector('[data-a=habitAdd]'):e.target.id==='shopNew'?document.querySelector('[data-a=shopAdd]'):e.target.closest('.toolbox')?.querySelector('button[data-a=toolrun]');
+      if(action){e.preventDefault();action.click();return}
+    }
+  }
   if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||e.metaKey||e.ctrlKey||e.altKey||!U||!PF||(GD&&!GD.approved)||!$('#sh').hidden)return;
   if(/^[nNтТ]$/.test(e.key)){e.preventDefault();openItem(null)}else if(/^[1-4]$/.test(e.key))tab(+e.key-1)});
 $('#mn').addEventListener('scroll',()=>$('#br').classList.toggle('on',$('#mn').scrollTop>36));
@@ -1528,15 +1615,17 @@ function initAliceNativeSelectPicker(){
   document.addEventListener('keydown',e=>{if(!picker.hidden&&e.key==='Escape'){e.preventDefault();e.stopPropagation();closePicker()}else if(!picker.hidden&&e.key==='ArrowDown'&&e.target===activeButton){e.preventDefault();pickerList.querySelector('button:not(:disabled)')?.focus()}});
   const observer=new MutationObserver(records=>{
     for(const record of records){
-      if(record.type==='childList'){
-        record.addedNodes.forEach(node=>{if(node.nodeType!==1)return;if(node.matches&&node.matches('select'))enhanceSelect(node);node.querySelectorAll?.('select').forEach(enhanceSelect)});
+      if(record.type!=='childList')continue;
+      for(const node of record.addedNodes){
+        if(node.nodeType!==1)continue;
+        if(node.matches&&node.matches('select'))enhanceSelect(node);
+        if(node.querySelectorAll)node.querySelectorAll('select').forEach(enhanceSelect);
       }
     }
-    document.querySelectorAll('select.ios-native-select-hidden').forEach(syncSelect);
   });
   observer.observe(document.body,{childList:true,subtree:true});
   document.querySelectorAll('select').forEach(enhanceSelect);
-  // Dynamic unit converter repopulates existing select elements; keep the visible buttons in sync.
+  // Sync only the select that changed; never rescan the whole document on each change.
   document.addEventListener('change',e=>{if(e.target instanceof HTMLSelectElement)syncSelect(e.target)});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initAliceNativeSelectPicker,{once:true});else initAliceNativeSelectPicker();
